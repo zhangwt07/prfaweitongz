@@ -1,8 +1,8 @@
 Package: prfaweitongz
 Type: Package
-Title: What the Package Does (Title Case)
+Title: CMU R Course Project
 Version: 0.1.0
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: More about what it does (maybe more than one line)
+Authors@R: person(“Weitong”, “Zhang”, email = “weitongz@andrew.cmu.edu”, role = c("aut", "cre"))
+Description: Analyze the Adelaide crime data between offense counts and post code and or suburbs
 License: What license is it under?
 LazyData: TRUE
