@@ -1,9 +1,9 @@
 Package: prfaweitongz
 Type: Package
-Title: CMU R Course Project
+Title: What the Package Does (Title Case)
 Version: 0.1.0
-Authors@R: Weitong Zhang
-Description: Analyze the Adelaide crime data between offense counts and post code and or suburbs
-Encoding: UTF-8
+Author: Who wrote it
+Maintainer: Who to complain to <yourfault@somewhere.net>
+Description: More about what it does (maybe more than one line)
 License: What license is it under?
-LazyData: TRUE
+LazyData: TRUE 
