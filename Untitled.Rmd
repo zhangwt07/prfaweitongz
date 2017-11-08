@@ -1,0 +1,59 @@
+---
+title: "Homework2 Adelaide Crime Analysis"
+author: "Weitong Zhang"
+date: "11/9/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Compare these neighbouring postcodes for each of the five previous years (in our data, a year begins on 1 July): 5022, 5023. Use a selection of tables, plots and text to describe the trends in 'PROPERTY DAMAGE AND ENVIRONMENTAL' over this time period. What do you notice about these trends?
+
+## Aim
+
+5022, 5023 are SA postcodes in greater Adelaide. 5022 stands for Henley Beach, Grange, Henley Beach South and Tennyson while 5023 for Seaton and Findon. We want to compare the trend of **PROPERTY DAMAGE AND ENVIRONMENTAL** in the official crime datasets in the past five years (from July, 2012 to June, 2017) to see if the related policy has impacted the crime rate and offence counts.
+
+
+```{r plot_box_month}
+# to install the package and get the function used to analyze crime data
+library(devtools)
+#devtools::install_github("zhangwt07/prfaweitongz")
+library(prfaweitongz)
+
+# loading data
+library(readxl)
+library(data.table)
+library(ggplot2)
+
+filenames <- list.files("data")
+crime_idx <- grep("crime-statistics", filenames)
+crime_files <- filenames[crime_idx]
+
+crime <- vector(mode = "list", length = length(crime_files))
+
+for (i in seq_along(crime_files)) {
+  f <- crime_files[i]
+  crime[[i]] <- setDT(read_excel(file.path("data", f)))
+  setnames(crime[[i]], c("date", "suburb", "postcode", "offence_level_1",
+                    "offence_level_2", "offence_level_3", "offence_count"))
+}
+crime <- rbindlist(crime)
+#crime[(postcode ==  5022|postcode==5023)&("PROPERTY DAMAGE AND ENVIRONMENTAL" %in% offence_level_1),list(total_offence_count = sum(offence_count)),by = date]
+
+print(crime)
+
+offence <-"PROPERTY DAMAGE AND ENVIRONMENTAL"
+postcodes <- c(5022,5023)
+crime_analysis(crime,offence,postcodes)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
