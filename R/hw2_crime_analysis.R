@@ -82,7 +82,7 @@ crime_analysis <- function(crime_data, offence_description, args) {
   if(flag=="postcode"){
     if(level==1){
       plot_data <- crime_data[((postcode %in% args)&offence_description %in% offence_level_1),
-                              .(total_offence_count = sum(offence_count)),by=list(postcode,month(date))]
+                              list(total_offence_count = sum(offence_count)),by=list(postcode,date)]
     }else{
       plot_data <- crime_data[((postcode==args[2]|postcode==args[1])&offence_level_3==offence_description),
                               .(total_offence_count = sum(offence_count)),by=list(postcode,month(date))]
@@ -101,7 +101,7 @@ crime_analysis <- function(crime_data, offence_description, args) {
   # correlations. Try them out
   if (flag=="postcode"){
     plot_data[, postcode := plyr::mapvalues(postcode, args, c("x", "y"))]
-    plot_data <- dcast(plot_data, month ~ postcode, fun = sum,
+    plot_data <- dcast(plot_data, date ~ postcode, fun = sum,
                        fill = 0, value.var = "total_offence_count")
   }else{
     plot_data[, suburb := plyr::mapvalues(suburb, args, c("x", "y"))]
@@ -113,12 +113,12 @@ crime_analysis <- function(crime_data, offence_description, args) {
 
 
   # Generate the plot
-  ggplot(plot_data, aes(x=month))+
+  ggplot(plot_data, aes(date, total_offence_count, group=factor(month(date))))+
     geom_line(aes(y=plot_data$x),colour = 1)+
     geom_line(aes(y=plot_data$y),colour = 2)+
     labs(x = "Month",
          y = "Offence Count",
          title = paste("Offence Counts of",offence_description,"in Adelaide",sep=" "),
-         subtitle = paste("Offence counts level",level,"between",flag,args[1],"(black) and",args[2],"(red)",sep=" "))+
-    scale_x_continuous(breaks = c(7:12,1:6))
+         subtitle = paste("Offence counts level",level,"between",flag,args[1],"(black) and",args[2],"(red)",sep=" "))#+
+    #scale_x_continuous(breaks = c(7:12,1:6))
 }

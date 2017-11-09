@@ -128,13 +128,15 @@ $(document).ready(function () {
 <h2>Aim</h2>
 <p>5022, 5023 are SA postcodes in greater Adelaide. 5022 stands for Henley Beach, Grange, Henley Beach South and Tennyson while 5023 for Seaton and Findon. We want to compare the trend of <strong>PROPERTY DAMAGE AND ENVIRONMENTAL</strong> in the official crime datasets in the past five years (from July, 2012 to June, 2017) to see if the related policy has impacted the crime rate and offence counts.</p>
 <pre class="r"><code># to install the package and get the function used to analyze crime data
-#library(devtools)
+library(devtools)
 #devtools::install_github(&quot;zhangwt07/prfaweitongz&quot;)
+library(prfaweitongz)
 
 # loading data
 library(readxl)
 library(data.table)
 library(ggplot2)
+
 filenames &lt;- list.files(&quot;data&quot;)
 crime_idx &lt;- grep(&quot;crime-statistics&quot;, filenames)
 crime_files &lt;- filenames[crime_idx]
@@ -148,20 +150,9 @@ for (i in seq_along(crime_files)) {
                     &quot;offence_level_2&quot;, &quot;offence_level_3&quot;, &quot;offence_count&quot;))
 }
 crime &lt;- rbindlist(crime)
-crime[(postcode ==  5022|postcode==5023)&amp;(&quot;PROPERTY DAMAGE AND ENVIRONMENTAL&quot; %in% offence_level_1),list(total_offence_count = sum(offence_count)),by = date]</code></pre>
-<pre><code>##             date total_offence_count
-##    1: 2012-07-01                   6
-##    2: 2012-07-02                   5
-##    3: 2012-07-03                   5
-##    4: 2012-07-04                   1
-##    5: 2012-07-05                   3
-##   ---                               
-## 1803: 2017-06-26                   9
-## 1804: 2017-06-27                   8
-## 1805: 2017-06-28                   2
-## 1806: 2017-06-29                   4
-## 1807: 2017-06-30                   9</code></pre>
-<pre class="r"><code>print(crime)</code></pre>
+#crime[(postcode ==  5022|postcode==5023)&amp;(&quot;PROPERTY DAMAGE AND ENVIRONMENTAL&quot; %in% offence_level_1),list(total_offence_count = sum(offence_count)),by = date]
+
+print(crime)</code></pre>
 <pre><code>##               date            suburb postcode
 ##      1: 2012-07-01    ABERFOYLE PARK     5159
 ##      2: 2012-07-01    ABERFOYLE PARK     5159
@@ -210,6 +201,7 @@ crime[(postcode ==  5022|postcode==5023)&amp;(&quot;PROPERTY DAMAGE AND ENVIRONM
 ## 444185:   OFFENCES AGAINST PROPERTY             1
 ## 444186:   OFFENCES AGAINST PROPERTY             1
 ## 444187:   OFFENCES AGAINST PROPERTY             1</code></pre>
+<pre class="r"><code>#crime_analysis(crime,&quot;PROPERTY DAMAGE AND ENVIRONMENTAL&quot;,c(5022,5023))</code></pre>
 </div>
 <div id="including-plots" class="section level2">
 <h2>Including Plots</h2>
