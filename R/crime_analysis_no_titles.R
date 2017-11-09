@@ -135,10 +135,7 @@ crime_analysis_no_titles <- function(crime_data, offence_description, args) {
       geom_line(aes(y=plot_data$x,colour = Suburb))+
       geom_line(aes(y=plot_data$y,colour = Suburb_1))+
       labs(x = paste("Month in",year,"-",(as.numeric(year)+1),sep=" "),
-           y = "Offence Count",
-           title = paste("Offence Counts of",offence_description,"in Adelaide",sep=" "),
-           subtitle = paste("Offence counts level",level,"between",flag,args[1],
-                            "and",args[2],"from year",year,"-",(as.numeric(year)+1),sep=" "))
+           y = "Offence Count")
   }
   return(res)
 }

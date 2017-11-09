@@ -57,16 +57,16 @@ for (f in crime_files) {
                     "offence_level_2", "offence_level_3", "offence_count"))
   
   
-  p<-eval(substitute(prfaweitongz::crime_analysis(crime,"PROPERTY DAMAGE AND ENVIRONMENTAL",c(5022,5023))),list(i=i))
+  p<-eval(substitute(prfaweitongz::crime_analysis_no_titles(crime,"PROPERTY DAMAGE AND ENVIRONMENTAL",c(5022,5023))),list(i=i))
   myplots[[i]]<-p
   i<-i+1
 }
 #(knitr::kable(crime))
 #kable(crime, format = "html") 
-
+theme_set(theme_cowplot(font_size = 5))
 cowplot::plot_grid(myplots[[1]],myplots[[2]],myplots[[3]],
           myplots[[4]],myplots[[5]],NULL,nrow = 2,ncol = 3,scale = c(0.5,0.5,0.5,0.5,0.5),align = "h")
-theme_set(theme_cowplot(font_size = 3))
+
 
 
 #crime_analysis(crime,"PROPERTY DAMAGE AND ENVIRONMENTAL",c(5022,5023))
