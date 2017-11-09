@@ -1,4 +1,6 @@
 Package: prfaweitongz
+Imports: ggplot2,
+	 data.table
 Type: Package
 Title: CMU R Course Projects
 Version: 0.1.0
