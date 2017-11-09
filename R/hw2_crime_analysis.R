@@ -138,10 +138,4 @@ crime_analysis <- function(crime_data, offence_description, args) {
                             "and",args[2],"from year",year,"-",(as.numeric(year)+1),sep=" "))
   }
 
-
-
-
-
-
-
 }
