@@ -103,6 +103,7 @@ crime_analysis <- function(crime_data, offence_description, args) {
   # These lines will transform the plot_data structure to allow us to plot
   # correlations. Try them out
   if (flag=="postcode"){
+    #if is postcode
     plot_data[, postcode := plyr::mapvalues(postcode, args, c("x", "y"))]
     plot_data <- dcast(plot_data, month ~ postcode, fun = sum,
                        fill = 0, value.var = "total_offence_count")
