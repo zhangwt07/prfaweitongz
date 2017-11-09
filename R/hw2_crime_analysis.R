@@ -112,7 +112,7 @@ crime_analysis <- function(crime_data, offence_description, args) {
     # Generate the plot
     Postcode <- factor(args[1])
     Postcode_1<-factor(args[2])
-    ggplot(plot_data,aes(x=month,group=1))+
+    res<-ggplot(plot_data,aes(x=month,group=1))+
       geom_line(aes(y=plot_data$x,colour = Postcode))+
       geom_line(aes(y=plot_data$y,colour = Postcode_1))+
       labs(x = paste("Month in",year,"-",(as.numeric(year)+1),sep=" "),
@@ -130,7 +130,7 @@ crime_analysis <- function(crime_data, offence_description, args) {
     # Generate the plot
     Suburb <- factor(args[1])
     Suburb_1<-factor(args[2])
-    ggplot(plot_data,aes(x=month,group=1))+
+    res<-ggplot(plot_data,aes(x=month,group=1))+
       geom_line(aes(y=plot_data$x,colour = Suburb))+
       geom_line(aes(y=plot_data$y,colour = Suburb_1))+
       labs(x = paste("Month in",year,"-",(as.numeric(year)+1),sep=" "),
@@ -139,5 +139,5 @@ crime_analysis <- function(crime_data, offence_description, args) {
            subtitle = paste("Offence counts level",level,"between",flag,args[1],
                             "and",args[2],"from year",year,"-",(as.numeric(year)+1),sep=" "))
   }
-
+  return(res)
 }

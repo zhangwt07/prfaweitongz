@@ -17,9 +17,12 @@ Compare these neighbouring postcodes for each of the five previous years (in our
 
 ```{r }
 # to install the package and get the function used to analyze crime data
-library(devtools)
-#devtools::install_github("zhangwt07/prfaweitongz")
-library(prfaweitongz)
+if (!require(devtools)){
+  install.packages("devtools")
+}
+if (!require(prfaweitongz)){
+  devtools::install_github("zhangwt07/prfaweitongz")
+}
 if (!require(knitr)){
   install.packages("knitr")
 }
@@ -29,6 +32,7 @@ library(knitr)
 library(readxl)
 library(data.table)
 library(ggplot2)
+library(prfaweitongz)
 
 filenames <- list.files("data")
 crime_idx <- grep("crime-statistics", filenames)
@@ -36,19 +40,28 @@ crime_files <- filenames[crime_idx]
 
 crime <- vector(mode = "list", length = length(crime_files))
 
-for (i in seq_along(crime_files)) {
-  f <- crime_files[i]
-  crime[[i]] <- setDT(read_excel(file.path("data", f)))
-  setnames(crime[[i]], c("date", "suburb", "postcode", "offence_level_1",
+for (f in crime_files) {
+  
+  crime <- setDT(read_excel(file.path("data", f)))
+  setnames(crime, c("date", "suburb", "postcode", "offence_level_1",
                     "offence_level_2", "offence_level_3", "offence_count"))
+  
 }
-crime <- rbindlist(crime)
+prfaweitongz::crime_analysis(crime,"PROPERTY DAMAGE AND ENVIRONMENTAL",c(5022,5023))
+#for (i in seq_along(crime_files)) {
+  #f <- crime_files[i]
+  #crime[[i]] <- setDT(read_excel(file.path("data", f)))
+  #setnames(crime[[i]], c("date", "suburb", "postcode", "offence_level_1",
+      #              "offence_level_2", "offence_level_3", "offence_count"))
+ # prfaweitongz::crime_analysis(crime[[i]],"PROPERTY DAMAGE AND ENVIRONMENTAL",c(5022,5023))
+#}
+#crime <- rbindlist(crime)
 #crime[(postcode ==  5022|postcode==5023)&("PROPERTY DAMAGE AND ENVIRONMENTAL" %in% offence_level_1),list(total_offence_count = sum(offence_count)),by = date]
 
 #knitr::kable(crime)
 
 
-crime_analysis(crime,"PROPERTY DAMAGE AND ENVIRONMENTAL",c(5022,5023))
+#crime_analysis(crime,"PROPERTY DAMAGE AND ENVIRONMENTAL",c(5022,5023))
 ```
 
 ## Including Plots
