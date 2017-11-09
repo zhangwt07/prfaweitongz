@@ -120,6 +120,7 @@ crime_analysis <- function(crime_data, offence_description, args) {
            subtitle = paste("Offence counts level",level,"between",flag,args[1],
                             "and",args[2],"from year",year,"-",(as.numeric(year)+1),sep=" "))
   }else{
+    #if is suburb
     plot_data[, suburb := plyr::mapvalues(suburb, args, c("x", "y"))]
     plot_data <- dcast(plot_data, month ~ suburb, fun = sum,
                        fill = 0, value.var = "total_offence_count")
