@@ -18,10 +18,14 @@ Compare these neighbouring postcodes for each of the five previous years (in our
 ```{r }
 # to install the package and get the function used to analyze crime data
 library(devtools)
-devtools::install_github("zhangwt07/prfaweitongz")
+#devtools::install_github("zhangwt07/prfaweitongz")
 library(prfaweitongz)
+if (!require(knitr)){
+  install.packages("knitr")
+}
 
 # loading data
+library(knitr)
 library(readxl)
 library(data.table)
 library(ggplot2)
@@ -41,7 +45,7 @@ for (i in seq_along(crime_files)) {
 crime <- rbindlist(crime)
 #crime[(postcode ==  5022|postcode==5023)&("PROPERTY DAMAGE AND ENVIRONMENTAL" %in% offence_level_1),list(total_offence_count = sum(offence_count)),by = date]
 
-print(crime)
+#knitr::kable(crime)
 
 
 crime_analysis(crime,"PROPERTY DAMAGE AND ENVIRONMENTAL",c(5022,5023))
