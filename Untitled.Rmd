@@ -14,8 +14,11 @@ Compare these neighbouring postcodes for each of the five previous years (in our
 
 5022, 5023 are SA postcodes in greater Adelaide. 5022 stands for Henley Beach, Grange, Henley Beach South and Tennyson while 5023 for Seaton and Findon. We want to compare the trend of **PROPERTY DAMAGE AND ENVIRONMENTAL** in the official crime datasets in the past five years (from July, 2012 to June, 2017) to see if the related policy has impacted the crime rate and offence counts.
 
+## Results
 
-```{r }
+Analyze the official data from Adelaide crime statistics <https://data.sa.gov.au/data/dataset/crime-statistics>, and use the package from github zhangwt07/prfaweitongz, knitr, cowplot, we have the result plots:
+
+```{r,echo=FALSE}
 # to install the package and get the function used to analyze crime data
 if (!require(devtools)){
   install.packages("devtools")
@@ -26,39 +29,44 @@ if (!require(prfaweitongz)){
 if (!require(knitr)){
   install.packages("knitr")
 }
+if (!require(ggplot2)){
+  install.packages("ggplot2")
+}
+if (!require(cowplot)){
+  install.packages("cowplot")
+}
 
 # loading data
 library(knitr)
 library(readxl)
 library(data.table)
 library(ggplot2)
+library(cowplot)
 library(prfaweitongz)
 
 filenames <- list.files("data")
 crime_idx <- grep("crime-statistics", filenames)
 crime_files <- filenames[crime_idx]
 
-crime <- vector(mode = "list", length = length(crime_files))
-
+myplots<-list()
+i<-1
 for (f in crime_files) {
-  
+  i<-i
   crime <- setDT(read_excel(file.path("data", f)))
   setnames(crime, c("date", "suburb", "postcode", "offence_level_1",
                     "offence_level_2", "offence_level_3", "offence_count"))
   
+  
+  p<-eval(substitute(prfaweitongz::crime_analysis(crime,"PROPERTY DAMAGE AND ENVIRONMENTAL",c(5022,5023))),list(i=i))
+  myplots[[i]]<-p
+  i<-i+1
 }
-prfaweitongz::crime_analysis(crime,"PROPERTY DAMAGE AND ENVIRONMENTAL",c(5022,5023))
-#for (i in seq_along(crime_files)) {
-  #f <- crime_files[i]
-  #crime[[i]] <- setDT(read_excel(file.path("data", f)))
-  #setnames(crime[[i]], c("date", "suburb", "postcode", "offence_level_1",
-      #              "offence_level_2", "offence_level_3", "offence_count"))
- # prfaweitongz::crime_analysis(crime[[i]],"PROPERTY DAMAGE AND ENVIRONMENTAL",c(5022,5023))
-#}
-#crime <- rbindlist(crime)
-#crime[(postcode ==  5022|postcode==5023)&("PROPERTY DAMAGE AND ENVIRONMENTAL" %in% offence_level_1),list(total_offence_count = sum(offence_count)),by = date]
+#(knitr::kable(crime))
+#kable(crime, format = "html") 
 
-#knitr::kable(crime)
+cowplot::plot_grid(myplots[[1]],myplots[[2]],myplots[[3]],
+          myplots[[4]],myplots[[5]],NULL,nrow = 2,ncol = 3,scale = c(0.5,0.5,0.5,0.5,0.5),align = "h")
+theme_set(theme_cowplot(font_size = 3))
 
 
 #crime_analysis(crime,"PROPERTY DAMAGE AND ENVIRONMENTAL",c(5022,5023))
