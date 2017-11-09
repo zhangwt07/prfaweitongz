@@ -35,7 +35,7 @@ if (!require(ggplot2)){
 if (!require(cowplot)){
   install.packages("cowplot")
 }
-
+devtools::install_github("zhangwt07/prfaweitongz")
 # loading data
 library(knitr)
 library(readxl)
